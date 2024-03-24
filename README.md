@@ -1,6 +1,7 @@
 # chashao
 
-Incredibly minimalist dynamic DNS client for Porkbun *with IPv6 support!*
+Incredibly minimalist dynamic DNS client for Porkbun *with IPv6 support!*  
+Inspired somewhat by [porkbun-dynamic-dns-python](https://github.com/porkbundomains/porkbun-dynamic-dns-python).
 
 ## USAGE:
 
