@@ -39,9 +39,10 @@ if not config["domain"]["sub"] == "": # format things properly
 else:
 	fqdn = config["domain"]["root"]
 
-for i in getRecords(config["domain"]["root"])["records"]: # delete old records
-	if i["name"]==fqdn and (i["type"] == 'A' or i["type"] == 'AAAA' or i["type"] == 'ALIAS' or i["type"] == 'CNAME'):
-		requests.post(config["endpoint"] + '/dns/delete/' + config["domain"]["root"] + '/' + i["id"], data = json.dumps(config["keys"])).text
+if not config["dryrun"]:
+	for i in getRecords(config["domain"]["root"])["records"]: # delete old records
+		if i["name"]==fqdn and (i["type"] == 'A' or i["type"] == 'AAAA' or i["type"] == 'ALIAS' or i["type"] == 'CNAME'):
+			requests.post(config["endpoint"] + '/dns/delete/' + config["domain"]["root"] + '/' + i["id"], data = json.dumps(config["keys"])).text
 
 ip = getIP()
 
