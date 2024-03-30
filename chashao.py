@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+
+# chashao - porkbun dynamic dns client
+# made with <3 by moth.monster
+
 # SPDX-License-Identifier: MIT-0
 
 import requests, json
