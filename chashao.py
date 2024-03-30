@@ -46,15 +46,21 @@ try: # add A record if needed
 except KeyError:
 	pass
 else:
-	record4 = config["keys"].copy()
-	record4.update({'name': config["domain"]["sub"], 'type': 'A', 'content': ip["v4"], 'ttl': 600})
-	requests.post(config["endpoint"] + '/dns/create/'+ config["domain"]["root"], data = json.dumps(record4)).text
+	if config["dryrun"]:
+		print("A " + fqdn + " " + ip["v4"])
+	else:
+		record4 = config["keys"].copy()
+		record4.update({'name': config["domain"]["sub"], 'type': 'A', 'content': ip["v4"], 'ttl': 600})
+		requests.post(config["endpoint"] + '/dns/create/'+ config["domain"]["root"], data = json.dumps(record4)).text
 
 try: # add AAAA record if needed
 	ip["v6"]
 except KeyError:
 	pass
 else:
-	record6 = config["keys"].copy()
-	record6.update({'name': config["domain"]["sub"], 'type': 'AAAA', 'content': ip["v6"], 'ttl': 600})
-	requests.post(config["endpoint"] + '/dns/create/'+ config["domain"]["root"], data = json.dumps(record6)).text
+	if config["dryrun"]:
+		print("AAAA " + fqdn + " " + ip["v6"])
+	else:
+		record6 = config["keys"].copy()
+		record6.update({'name': config["domain"]["sub"], 'type': 'AAAA', 'content': ip["v6"], 'ttl': 600})
+		requests.post(config["endpoint"] + '/dns/create/'+ config["domain"]["root"], data = json.dumps(record6)).text

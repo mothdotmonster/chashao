@@ -4,6 +4,9 @@ endpointv4 = "https://api-ipv4.porkbun.com/api/json/v3"
 # If true, only use IPv6. Otherwise, attempts dual-stack and falls back to v4 only.
 v6only = false
 
+# If true, print the record(s) we'd make instead of actually making them.
+dryrun = true
+
 [keys]
 apikey = "pk1_ your api key"
 secretapikey = "sk1_ your secret key"
