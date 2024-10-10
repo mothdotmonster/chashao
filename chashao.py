@@ -13,7 +13,7 @@ global config
 with open("config.toml", "rb") as f:
 	config = toml.load(f)
 
-def getIP(): #get ipv4 ∨ ipv6 addresses, all in a nice tidy array
+def getIP(): # get ipv4 ∨ ipv6 addresses, all in a nice tidy array
 	ping6 = json.loads(requests.post(config["endpoint"] + '/ping/', data = json.dumps(config["keys"])).text)
 	if config["verbose"] == True:
 		print(ping6)
@@ -31,15 +31,15 @@ def getIP(): #get ipv4 ∨ ipv6 addresses, all in a nice tidy array
 			ip = {"v4": ping4["yourIp"], "v6": ping6["yourIp"]}
 			return ip
 	
-def getRecords(domain): #grab all the records so we know which ones to delete to make room for our record. Also checks to make sure we've got the right domain
+def getRecords(domain): # grab all the records so we know which ones to delete to make room for our record. Also checks to make sure we've got the right domain
 	records=json.loads(requests.post(config["endpoint"] + '/dns/retrieve/' + domain, data = json.dumps(config["keys"])).text)
 	if records["status"]=="ERROR":
 		print('Error getting domain. Check to make sure you specified the correct domain, and that API access has been switched on for this domain.')
 		exit(1)
 	return(records)
 
-def delRecords():
-	for i in getRecords(config["domain"]["root"])["records"]: # delete old records
+def delRecords(): # delete old records
+	for i in getRecords(config["domain"]["root"])["records"]:
 		if i["name"]==fqdn and (i["type"] == 'A' or i["type"] == 'AAAA' or i["type"] == 'ALIAS' or i["type"] == 'CNAME'):
 			requests.post(config["endpoint"] + '/dns/delete/' + config["domain"]["root"] + '/' + i["id"], data = json.dumps(config["keys"])).text
 
@@ -50,7 +50,7 @@ else:
 
 ip = getIP()
 
-with shelve.open("cache") as cache:
+with shelve.open("cache") as cache: # caching to avoid redundant work
 	try:
 		cache["ip"]
 	except KeyError:
@@ -63,7 +63,6 @@ with shelve.open("cache") as cache:
 	else:
 		if config["verbose"] == True:
 			print("IP has changed.")
-		# remove old records
 		if not config["dryrun"]:
 			delRecords()
 		# add A record if needed
