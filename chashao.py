@@ -55,12 +55,13 @@ with shelve.open("cache") as cache: # caching to avoid redundant work
 		cache["ip"]
 	except KeyError:
 		if config["verbose"] == True:
+			cache["ip"] = "DUMMY" # add dummy value to prevent error in next comparison
 			print("Cache empty!")
-		cache["ip"] = ip
 	if cache["ip"] == ip:
 		if config["verbose"] == True:
 			print("IP has not changed. Nothing needs to be done.")
 	else:
+		cache["ip"] = ip # update cached value
 		if config["verbose"] == True:
 			print("IP has changed.")
 		if not config["dryrun"]:
