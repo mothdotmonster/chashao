@@ -55,17 +55,22 @@ with shelve.open("cache") as cache: # caching to avoid redundant work
 		cache["ip"]
 	except KeyError:
 		cache["ip"] = "DUMMY" # add dummy value to prevent error in next comparison
-		if config["verbose"] == True:
-			print("Cache empty!")
-	if cache["ip"] == ip:
-		if config["verbose"] == True:
-			print("IP has not changed. Nothing needs to be done.")
+		if config["verbose"]:
+			print('\033[1m%s\033[0m' % "Cache empty!")
+	if cache["ip"] == ip and config["cache"]:
+		if config["verbose"]:
+			print('\033[1m%s\033[0m' % "IP has not changed. Nothing needs to be done.")
 	else:
 		cache["ip"] = ip # update cached value
-		if config["verbose"] == True:
-			print("IP has changed.")
+		if config["verbose"]:
+			if not config["cache"]:
+				print('\033[1m%s\033[0m' % "Caching is disabled. Updating records.")
+			else:
+				print('\033[1m%s\033[0m' % "IP has changed. Updating records.")
 		if not config["dryrun"]:
 			delRecords()
+		if config["dryrun"] and config["verbose"]:
+			print('\033[1m%s\033[0m' % "Dry run enabled. Nothing will actually be done.")
 		# add A record if needed
 		try:
 			ip["v4"]

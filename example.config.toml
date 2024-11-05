@@ -2,7 +2,9 @@ endpoint = "https://api.porkbun.com/api/json/v3"
 endpointv4 = "https://api-ipv4.porkbun.com/api/json/v3"
 
 v6only = false # If true, only use IPv6. Otherwise, attempts dual-stack and falls back to v4 only.
+cache = true # If true, enable caching
 ttl = 600
+
 
 dryrun = true # If true, print the record(s) we'd make instead of actually making them.
 verbose = true # If true, print extra debug info
